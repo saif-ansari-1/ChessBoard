@@ -6,16 +6,11 @@ import services.Mover
 
 class ChessController {
 
-  def getQueenMoves(currentPosition: Position): String =
-    Mover.stringifyPosition(
-      Mover.moveDiagonalNSteps(currentPosition, 7) ++
-        Mover.moveSlantDiagonalNSteps(currentPosition, 7) ++
-        Mover.moveHorizontalNSteps(currentPosition, 7) ++
-        Mover.moveVerticalNSteps(currentPosition, 7))
-
-  def getPossibleMoves(piece: Piece): String = {
+  def getPossibleMoves(piece: Piece): String =
     piece.pieceType match {
       case PieceType.King => getKingMoves(piece.currentPosition)
+
+      case PieceType.Queen => getQueenMoves(piece.currentPosition)
 
       case PieceType.Horse => getHorseMoves(piece.currentPosition)
 
@@ -23,22 +18,26 @@ class ChessController {
 
       case PieceType.Rook => getRookMoves(piece.currentPosition)
 
-      case PieceType.Queen => getKingMoves(piece.currentPosition)
-
       case PieceType.Pawn => getPawnMoves(piece.currentPosition)
 
       case _ => "Invalid Piece value provided"
     }
-  }
 
-  def getKingMoves(currentPosition: Position): String =
+  private def getQueenMoves(currentPosition: Position): String =
+    Mover.stringifyPosition(
+      Mover.moveDiagonalNSteps(currentPosition, 7) ++
+        Mover.moveSlantDiagonalNSteps(currentPosition, 7) ++
+        Mover.moveHorizontalNSteps(currentPosition, 7) ++
+        Mover.moveVerticalNSteps(currentPosition, 7))
+
+  private def getKingMoves(currentPosition: Position): String =
     Mover.stringifyPosition(
       Mover.moveHorizontalNSteps(currentPosition, 1) ++
         Mover.moveVerticalNSteps(currentPosition, 1) ++
         Mover.moveDiagonalNSteps(currentPosition, 1) ++
         Mover.moveSlantDiagonalNSteps(currentPosition, 1))
 
-  def getHorseMoves(currentPosition: Position): String = {
+  private def getHorseMoves(currentPosition: Position): String = {
     val moveHorizontal2Times = Mover.moveHorizontalNSteps(currentPosition, 2)
     val moveVertical2Times = Mover.moveVerticalNSteps(currentPosition, 2)
 
@@ -58,19 +57,20 @@ class ChessController {
     Mover.stringifyPosition(possibleMoves)
   }
 
-  def getBishopMoves(currentPosition: Position): String =
+  private def getBishopMoves(currentPosition: Position): String =
     Mover.stringifyPosition(
       Mover.moveDiagonalNSteps(currentPosition, 7) ++
         Mover.moveSlantDiagonalNSteps(currentPosition, 7))
 
-  def getRookMoves(currentPosition: Position): String =
+  private def getRookMoves(currentPosition: Position): String =
     Mover.stringifyPosition(
       Mover.moveHorizontalNSteps(currentPosition, 7) ++
         Mover.moveVerticalNSteps(currentPosition, 7))
 
-  def getPawnMoves(currentPosition: Position): String =
+  private def getPawnMoves(currentPosition: Position): String =
     Mover.stringifyPosition(
       Seq(Mover.moveVerticalNSteps(currentPosition, 1).last,
         Mover.moveDiagonalNSteps(currentPosition, 1).last,
-        Mover.moveSlantDiagonalNSteps(currentPosition, 1).last).filter(_.row - currentPosition.row == 1))
+        Mover.moveSlantDiagonalNSteps(currentPosition, 1).last)
+        .filter(_.row - currentPosition.row == 1))
 }
