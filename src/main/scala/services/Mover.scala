@@ -37,4 +37,9 @@ object Mover {
       .map(step => Position(position.column - step, position.row + step))
       .filter(isPositionValid(position, _))
   }
+
+  def stringifyPosition(positions: Seq[Position]): String =
+    positions
+      .flatMap(pos => Mappings.INDEX_TO_COLUMN.get(pos.column).map(_ + pos.row))
+      .mkString(", ")
 }

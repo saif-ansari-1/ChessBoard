@@ -6,7 +6,7 @@ object Mappings {
 
     val BOARD_SIZE = 8
 
-    val columnToIndex: HashMap[String, Int] =
+    val COLUMN_TO_INDEX: HashMap[String, Int] =
     HashMap(
       "A" -> 1,
       "B" -> 2,
@@ -17,7 +17,7 @@ object Mappings {
       "G" -> 7,
       "H" -> 8)
 
-  val indexToColumn: HashMap[Int, String] =
+  val INDEX_TO_COLUMN: HashMap[Int, String] =
     HashMap(1 -> "A",
       2 -> "B",
       3 -> "C",
